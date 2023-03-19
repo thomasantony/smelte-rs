@@ -1,7 +1,8 @@
 use crate::traits::{Tensor, TensorOps};
 use crate::SmeltError;
 
-/// TODO
+/// Layer normalization layer. This layer is used to normalize the activations of
+/// the previous layer at each batch.
 #[derive(Clone)]
 pub struct LayerNorm<T: Tensor> {
     weight: T,
@@ -10,7 +11,9 @@ pub struct LayerNorm<T: Tensor> {
 }
 
 impl<T: Tensor + TensorOps<T>> LayerNorm<T> {
-    /// TODO
+    /// Creates a new layer normalization layer. The weight and bias tensors are
+    /// expected to have the same shape as the input tensor.
+    /// The epsilon parameter is used to prevent division by zero.
     pub fn new(weight: T, bias: T, epsilon: f32) -> Self {
         Self {
             weight,
@@ -19,7 +22,10 @@ impl<T: Tensor + TensorOps<T>> LayerNorm<T> {
         }
     }
 
-    /// TODO
+    /// Normalizes the given tensor using layer normalization.
+    /// The tensor is expected to have the shape [batch_size, num_features].
+    /// The weight and bias tensors are expected to have the shape [num_features].
+    /// The output tensor has the same shape as the input tensor.
     pub fn forward(&self, tensor: &mut T) -> Result<(), SmeltError> {
         T::normalize(tensor, self.epsilon)?;
         T::mul(&self.weight, tensor)?;
