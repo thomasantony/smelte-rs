@@ -21,12 +21,12 @@ impl<T: Tensor + TensorOps<T>> Linear<T> {
         Ok(())
     }
 
-    /// TODO
+    /// Returns a reference to the weight matrix.
     pub fn weight(&self) -> &T {
         &self.weight
     }
 
-    /// TODO
+    /// Returns a reference to the bias vector.
     pub fn bias(&self) -> &T {
         &self.bias
     }
