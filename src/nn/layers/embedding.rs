@@ -1,24 +1,27 @@
 use crate::traits::{Tensor, TensorOps};
 use crate::SmeltError;
 
-/// TODO
+/// Embedding layer. This layer is used to look up embeddings for a given set of
+/// indices. The indices are expected to be in the range [0, num_embeddings).
 #[derive(Clone)]
 pub struct Embedding<T: Tensor> {
     weight: T,
 }
 
 impl<T: Tensor + TensorOps<T>> Embedding<T> {
-    /// TODO
+    /// Creates a new embedding layer. The weight matrix is expected to have the
+    /// shape [num_embeddings, embedding_dim].
     pub fn new(weight: T) -> Self {
         Self { weight }
     }
 
-    /// TODO
+    /// Selects rows of the weight matrix based on the given indices. The indices
+    /// are expected to be in the range [0, num_embeddings).
     pub fn forward(&self, ids: &[usize], out: &mut T) -> Result<(), SmeltError> {
         T::select(ids, &self.weight, out)
     }
 
-    /// TODO
+    /// Returns a reference to the weight matrix.
     pub fn weight(&self) -> &T {
         &self.weight
     }
